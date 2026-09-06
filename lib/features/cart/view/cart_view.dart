@@ -28,6 +28,72 @@ class _CartviewState extends State<Cartview> {
         builder: (context, state) {
           return state.status == CartStatus.loading
               ? Scaffold(body: const Center(child: CircularProgressIndicator()))
+              : state.cartList!.isEmpty
+              ? Scaffold(
+                  appBar: AppBar(
+                    titleSpacing: 0,
+                    toolbarHeight: 70,
+                    leadingWidth: 70,
+                    leading: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black38,
+                              blurRadius: 5,
+                              offset: Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ),
+                    ),
+                    centerTitle: true,
+                    title: const Text(
+                      "My Cart",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                  ),
+                  body: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Cart is empty",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Add Item"),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               : Scaffold(
                   appBar: AppBar(
                     titleSpacing: 0,
@@ -134,7 +200,7 @@ class _CartviewState extends State<Cartview> {
                                       ),
                                       const Spacer(),
                                       Text(
-                                        "\$ {state.cartList[0].price ?? ''}",
+                                        "\$ 20",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
@@ -237,7 +303,15 @@ class _CartviewState extends State<Cartview> {
                               color: AppColors.primaryColor,
                             ),
                             child: state.status == CartStatus.loadingTwo
-                                ? CircularProgressIndicator(color: Colors.white)
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
                                 : TextButton(
                                     onPressed: () {},
                                     child: Row(

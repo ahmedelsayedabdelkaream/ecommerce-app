@@ -14,8 +14,8 @@ class AddToCartEvent extends CartEvents {
   AddToCartEvent({required this.productId});
 }
 
-class RemoveToCartEvent extends CartEvents {
+class RemoveFromCartEvent extends CartEvents {
   final String productId;
 
-  RemoveToCartEvent({required this.productId});
+  RemoveFromCartEvent({required this.productId});
 }

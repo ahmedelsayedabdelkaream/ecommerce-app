@@ -28,10 +28,12 @@ class CartBloc extends Bloc<CartEvents, CartStates> {
         emit(state.copyWith(error: e.toString()));
       }
     });
-    on<RemoveToCartEvent>((event, emit) async {
+    on<RemoveFromCartEvent>((event, emit) async {
       try {
-        final cart = await cartRepository.incrementCartItem(event.productId);
-        emit(state.copyWith(cartList: cart));
+        emit(state.copyWith(status: CartStatus.loadingTwo));
+
+        final cart = await cartRepository.decrementCartItem(event.productId);
+        emit(state.copyWith(cartList: cart, status: CartStatus.success));
       } catch (e) {
         emit(state.copyWith(error: e.toString()));
       }
