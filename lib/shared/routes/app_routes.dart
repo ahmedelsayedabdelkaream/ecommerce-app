@@ -19,10 +19,12 @@ import 'package:ecommerce_app/features/product/bloc/product_view_bloc.dart';
 import 'package:ecommerce_app/features/product/view/product_view.dart';
 import 'package:ecommerce_app/features/search/bloc/search_bloc.dart';
 import 'package:ecommerce_app/features/search/view/search_page.dart';
+import 'package:ecommerce_app/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRoutes {
+  static const String splash = '/';
   static const String onboarding = '/onboarding';
   static const String signup = '/signup';
   static const String completeProfile = '/completeProfile';
@@ -39,6 +41,7 @@ class AppRoutes {
   static const String cart = '/cart';
   // ===================Routes =============================
   static Map<String, WidgetBuilder> get routes => {
+    splash: (context) => const SplashScreen(),
     // ======================ONBOARDING =============================
     onboarding: (context) => const OnBoardingView(),
     // =========================== AUTH =============================

@@ -33,4 +33,9 @@ class StorageServices {
   bool isOnboardingComplete() {
     return sharedPreferences.getBool('onboarding') ?? false;
   }
+
+  // ======================== genric methods ==================================\\
+  Future<void> setString(String key, String value) {
+    return sharedPreferences.setString(key, value);
+  }
 }

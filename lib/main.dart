@@ -8,6 +8,7 @@ import 'package:ecommerce_app/data/services/storage_services.dart';
 import 'package:ecommerce_app/features/auth/sign_up/sign_up_bloc/sign_up_bloc.dart';
 import 'package:ecommerce_app/features/bottom_navigation/bloc/bottom_nav_bloc.dart';
 import 'package:ecommerce_app/features/cart/bloc/cart_bloc.dart';
+import 'package:ecommerce_app/features/splash/bloc/splash_bloc.dart';
 import 'package:ecommerce_app/features/home/bloc/home_page_bloc.dart';
 import 'package:ecommerce_app/features/onboarding/onboarding_bloc/onboarding_bloc.dart';
 import 'package:ecommerce_app/l10n/app_localizations.dart';
@@ -31,18 +32,14 @@ void main() async {
   Bloc.observer = AppBlocObserver();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   StorageServices storageServices = StorageServices(sharedPreferences);
-  String initialRoute = storageServices.isOnboardingComplete()
-      ? storageServices.getisUserLoggedIn2()
-            ? AppRoutes.bottomNav
-            : AppRoutes.login
-      : AppRoutes.onboarding;
-  runApp(MyApp(storageServices: storageServices, initialRoute: initialRoute));
+
+  runApp(MyApp(storageServices: storageServices));
 }
 
 class MyApp extends StatelessWidget {
   final StorageServices storageServices;
-  final String? initialRoute;
-  const MyApp({super.key, required this.storageServices, this.initialRoute});
+
+  const MyApp({super.key, required this.storageServices});
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +70,12 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
+            create: (context) => SplashBloc(
+              context.read<StorageServices>(),
+              context.read<AuthRepository>(),
+            ),
+          ),
+          BlocProvider(
             create: (context) => OnBoardingBloc(
               storageServices: context.read<StorageServices>(),
             ),
@@ -96,7 +99,7 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             return MaterialApp(
               locale: state.locale,
-              initialRoute: initialRoute,
+              initialRoute: AppRoutes.splash,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
               debugShowCheckedModeBanner: false,

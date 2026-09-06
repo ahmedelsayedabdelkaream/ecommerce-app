@@ -28,7 +28,7 @@ class _CartviewState extends State<Cartview> {
         builder: (context, state) {
           return state.status == CartStatus.loading
               ? Scaffold(body: const Center(child: CircularProgressIndicator()))
-              : state.cartList!.isEmpty
+              : state.cartList == null || state.cartList!.isEmpty
               ? Scaffold(
                   appBar: AppBar(
                     titleSpacing: 0,
