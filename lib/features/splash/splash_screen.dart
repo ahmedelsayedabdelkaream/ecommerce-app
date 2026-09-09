@@ -25,11 +25,17 @@ class _SplashScreenState extends State<SplashScreen> {
     return BlocListener<SplashBloc, SplashStates>(
       listener: (context, state) {
         if (state.status == SplashStatus.navToOnboarding) {
-          Navigator.of(context).pushNamed(AppRoutes.onboarding);
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil(AppRoutes.onboarding, (_) => false);
         } else if (state.status == SplashStatus.navToHome) {
-          Navigator.of(context).pushNamed(AppRoutes.bottomNav);
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil(AppRoutes.bottomNav, (_) => false);
         } else if (state.status == SplashStatus.navToLogin) {
-          Navigator.of(context).pushNamed(AppRoutes.login);
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil(AppRoutes.login, (_) => false);
         }
       },
       child: BlocBuilder<SplashBloc, SplashStates>(
@@ -38,20 +44,17 @@ class _SplashScreenState extends State<SplashScreen> {
             top: false,
             child: Scaffold(
               backgroundColor: AppColors.primaryColor,
-              body: Container(
+              body: SizedBox(
                 width: double.infinity,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 300,
                       height: 120,
-                      child: Image.asset(
-                        "assets/images/1786522226990.png",
-                        fit: BoxFit.cover,
-                      ),
+                      child: Image.asset("assets/images/1786522226990.png"),
                     ),
                     Text(
                       "Grocery",

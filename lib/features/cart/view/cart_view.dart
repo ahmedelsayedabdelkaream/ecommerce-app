@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/features/cart/bloc/cart_bloc.dart';
 import 'package:ecommerce_app/features/cart/bloc/cart_events.dart';
 import 'package:ecommerce_app/features/cart/bloc/cart_states.dart';
+import 'package:ecommerce_app/features/cart/widgets/bill_summary.dart';
 import 'package:ecommerce_app/features/cart/widgets/cart_product.dart';
 import 'package:ecommerce_app/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
@@ -155,125 +156,7 @@ class _CartviewState extends State<Cartview> {
                               vertical: 20,
                             ),
                             sliver: SliverToBoxAdapter(
-                              child: Column(
-                                spacing: 20,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Payment details",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Cart total",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ 20",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Dioscount",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ 20",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Delivery fee",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ 20",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Service fee",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ 20",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Total amount",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ 70",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                              child: BillSummary(state: state),
                             ),
                           ),
                           SliverToBoxAdapter(
@@ -313,19 +196,19 @@ class _CartviewState extends State<Cartview> {
                                     ),
                                   )
                                 : TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, "/order");
+                                    },
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         const Text(
-                                          "Add to cart",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        SizedBox(width: 20),
-                                        Text(
-                                          "\$ 20",
-                                          style: TextStyle(color: Colors.white),
+                                          "Checkout",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ],
                                     ),

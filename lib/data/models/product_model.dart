@@ -4,6 +4,8 @@ class ProductModel {
   final String? description;
   final int? price;
   final String? image;
+  final int? discount;
+  final double? discountPrice;
   final Map<String, dynamic>? category;
 
   ProductModel({
@@ -13,6 +15,8 @@ class ProductModel {
     this.price,
     this.image,
     this.category,
+    this.discountPrice,
+    this.discount,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +26,10 @@ class ProductModel {
       description: json['description'],
       price: json['price'],
       image: json['imageUrl'],
+      discount: json['discount'],
+      discountPrice:
+          ((json['price'] as num).toDouble()) -
+          ((json['price'] as num).toDouble() * json['discount'] / 100),
       category: json['category'],
     );
   }

@@ -65,12 +65,37 @@ class CartProduct extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 3,
-                          child: Text(
-                            "${state.cartList![index].price! * state.cartList![index].quantity!} \$",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: AppColors.primaryColor,
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      "${state.cartList![index].price! * state.cartList![index].quantity!} \$",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: AppColors.primaryColor,
+                                    decoration: TextDecoration.lineThrough,
+                                    decorationColor: AppColors.primaryColor,
+                                    decorationStyle: TextDecorationStyle.solid,
+                                    decorationThickness:
+                                        state.cartList![index].discount == 0
+                                        ? 0
+                                        : 2,
+                                  ),
+                                ),
+                                state.cartList![index].discount == 0
+                                    ? const TextSpan()
+                                    : TextSpan(
+                                        text:
+                                            " ${state.cartList![index].discountPrice} \$",
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: AppColors.primaryColor,
+                                        ),
+                                      ),
+                              ],
                             ),
                           ),
                         ),

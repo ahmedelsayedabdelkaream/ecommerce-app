@@ -12,6 +12,7 @@ import 'package:ecommerce_app/features/auth/sign_up/sign_up_view/complete_profil
 import 'package:ecommerce_app/features/auth/sign_up/sign_up_view/sign_up_view.dart';
 import 'package:ecommerce_app/features/bottom_navigation/view/bottom_navigation_view.dart';
 import 'package:ecommerce_app/features/cart/view/cart_view.dart';
+import 'package:ecommerce_app/features/cart/view/order.dart';
 import 'package:ecommerce_app/features/home/view/all_items/categories_list.dart';
 import 'package:ecommerce_app/features/home/view/all_items/offers_list.dart';
 import 'package:ecommerce_app/features/onboarding/onboarding_view.dart';
@@ -38,7 +39,11 @@ class AppRoutes {
   static const String productDetails = '/productDetails';
   static const String categoriesList = '/categoriesList';
   static const String specialOffersList = '/specialOffersList';
+
+  //=================================== CART=======================\\
   static const String cart = '/cart';
+  static const String order = '/order';
+
   // ===================Routes =============================
   static Map<String, WidgetBuilder> get routes => {
     splash: (context) => const SplashScreen(),
@@ -68,7 +73,6 @@ class AppRoutes {
     ),
     //==================================== HOME ================================
     bottomNav: (context) => const BottomNavigationView(),
-    cart: (context) => const Cartview(),
     search: (context) => BlocProvider(
       create: (context) => SearchPageBloc(),
       child: const SearchPage(),
@@ -79,5 +83,9 @@ class AppRoutes {
     ),
     categoriesList: (context) => const CategoriesList(),
     specialOffersList: (context) => const SpecialOfferList(),
+
+    //================================CART=========================\\
+    cart: (context) => const Cartview(),
+    order: (context) => const OrderPage(),
   };
 }

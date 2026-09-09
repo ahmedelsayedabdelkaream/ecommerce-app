@@ -26,13 +26,31 @@ class CartRepository {
     }
   }
 
-  Future<List<CartModel>> getCart() async {
+  Future<Map<String, dynamic>> getCart() async {
     try {
       final response = await api.get('cart/getCart');
       List<CartModel> cart = List<CartModel>.from(
-        response.data["cart"].map((x) => CartModel.fromJson(x)),
+        response.data['cart'].map((x) => CartModel.fromJson(x)),
       );
-      return cart;
+      final double totalPrice =
+          (response.data['billDetail']['cartTotal'] as num).toDouble();
+      final double discound = (response.data['billDetail']['discount'] as num)
+          .toDouble();
+      final double deliveryCharge =
+          (response.data['billDetail']['deliveryCharge'] as num).toDouble();
+      final double serviceFee =
+          (response.data['billDetail']['serviceFee'] as num).toDouble();
+      final totalAmount = (response.data['billDetail']['total'] as num)
+          .toDouble();
+
+      return {
+        "cart": cart,
+        "totalPrice": totalPrice,
+        "discound": discound,
+        "deliveryCharge": deliveryCharge,
+        "serviceFee": serviceFee,
+        "totalAmount": totalAmount,
+      };
     } on DioException catch (e) {
       String message = "something went wrong";
       if (e.type == DioExceptionType.connectionTimeout ||
@@ -47,7 +65,7 @@ class CartRepository {
     }
   }
 
-  Future<List<CartModel>> incrementCartItem(String productId) async {
+  Future<Map<String, dynamic>> incrementCartItem(String productId) async {
     try {
       final response = await api.post(
         'cart/incrementCartItem',
@@ -56,7 +74,25 @@ class CartRepository {
       List<CartModel> cart = List<CartModel>.from(
         response.data["cart"].map((x) => CartModel.fromJson(x)),
       );
-      return cart;
+      final double totalPrice =
+          (response.data['billDetail']['cartTotal'] as num).toDouble();
+      final double discound = (response.data['billDetail']['discount'] as num)
+          .toDouble();
+      final double deliveryCharge =
+          (response.data['billDetail']['deliveryCharge'] as num).toDouble();
+      final double serviceFee =
+          (response.data['billDetail']['serviceFee'] as num).toDouble();
+      final totalAmount = (response.data['billDetail']['total'] as num)
+          .toDouble();
+
+      return {
+        "cart": cart,
+        "totalPrice": totalPrice,
+        "discound": discound,
+        "deliveryCharge": deliveryCharge,
+        "serviceFee": serviceFee,
+        "totalAmount": totalAmount,
+      };
     } on DioException catch (e) {
       String message = "something went wrong";
       if (e.type == DioExceptionType.connectionTimeout ||
@@ -71,7 +107,7 @@ class CartRepository {
     }
   }
 
-  Future<List<CartModel>> decrementCartItem(String productId) async {
+  Future<Map<String, dynamic>> decrementCartItem(String productId) async {
     try {
       final response = await api.post(
         'cart/decrementCartItem',
@@ -80,7 +116,25 @@ class CartRepository {
       List<CartModel> cart = List<CartModel>.from(
         response.data["cart"].map((x) => CartModel.fromJson(x)),
       );
-      return cart;
+      final double totalPrice =
+          (response.data['billDetail']['cartTotal'] as num).toDouble();
+      final double discound = (response.data['billDetail']['discount'] as num)
+          .toDouble();
+      final double deliveryCharge =
+          (response.data['billDetail']['deliveryCharge'] as num).toDouble();
+      final double serviceFee =
+          (response.data['billDetail']['serviceFee'] as num).toDouble();
+      final totalAmount = (response.data['billDetail']['total'] as num)
+          .toDouble();
+
+      return {
+        "cart": cart,
+        "totalPrice": totalPrice,
+        "discound": discound,
+        "deliveryCharge": deliveryCharge,
+        "serviceFee": serviceFee,
+        "totalAmount": totalAmount,
+      };
     } on DioException catch (e) {
       String message = "something went wrong";
       if (e.type == DioExceptionType.connectionTimeout ||

@@ -1,6 +1,9 @@
+import 'package:ecommerce_app/features/cart/bloc/cart_bloc.dart';
+import 'package:ecommerce_app/features/cart/bloc/cart_events.dart';
 import 'package:ecommerce_app/features/home/bloc/home_page_state.dart';
 import 'package:ecommerce_app/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductCard extends StatelessWidget {
   final HomePageStates state;
@@ -79,12 +82,36 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "\$ ${state.featuredProducts[index].price}",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.bold,
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "${state.featuredProducts[index].price!} \$",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: AppColors.primaryColor,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor: AppColors.primaryColor,
+                            decorationStyle: TextDecorationStyle.solid,
+                            decorationThickness:
+                                state.featuredProducts[index].discount == 0
+                                ? 0
+                                : 2,
+                          ),
+                        ),
+                        state.featuredProducts[index].discount == 0
+                            ? const TextSpan()
+                            : TextSpan(
+                                text:
+                                    " ${state.featuredProducts[index].discountPrice} \$",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                      ],
                     ),
                   ),
                   Spacer(flex: 2),
@@ -98,7 +125,13 @@ class ProductCard extends StatelessWidget {
                       ),
                       child: IconButton(
                         padding: EdgeInsets.zero,
-                        onPressed: () {},
+                        onPressed: () {
+                          context.read<CartBloc>().add(
+                            AddToCartEvent(
+                              productId: state.featuredProducts[index].id!,
+                            ),
+                          );
+                        },
                         icon: Icon(size: 24, Icons.add, color: Colors.white),
                       ),
                     ),
