@@ -26,54 +26,94 @@ class OrderPage extends StatelessWidget {
                     sliver: SliverToBoxAdapter(
                       child: Container(
                         width: double.infinity,
-
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(25),
                           border: Border.all(color: Colors.grey[300]!),
                         ),
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Text(
-                                "JOHN DOE,123, MAIN ST APT 4B ,LOS ANGELES CA 90012",
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.location_on_outlined,
+                                  color: AppColors.primaryColor,
+                                ),
                               ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "LOS ANGELES",
+                                    style: TextStyle(
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "123, MAIN ST APT 4B",
+                                    style: TextStyle(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Mobile No: 1234567890",
+                                    style: TextStyle(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "Change",
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.primaryColor,
+                                    color: AppColors.primaryColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    sliver: SliverToBoxAdapter(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(color: Colors.grey[300]!),
+                        ),
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.directions_bike,
+                            color: AppColors.primaryColor,
+                          ),
+                          title: Text(
+                            "Delivery",
+                            style: TextStyle(
+                              color: AppColors.primaryColor,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
+                          ),
+                          subtitle: Text("Arriving in 10 - 15 minutes"),
                         ),
                       ),
                     ),
                   ),
-                  SliverPadding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    sliver: SliverToBoxAdapter(
-                      child: Container(
-                        width: double.infinity,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(color: Colors.grey[300]!),
-                        ),
-                        child: Center(child: Text("delivery type")),
-                      ),
-                    ),
-                  ),
-                  SliverPadding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    sliver: SliverToBoxAdapter(
-                      child: Container(
-                        width: double.infinity,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(color: Colors.grey[300]!),
-                        ),
-                        child: Center(child: Text("name")),
-                      ),
-                    ),
-                  ),
+
                   SliverPadding(
                     padding: const EdgeInsets.only(bottom: 20.0),
                     sliver: SliverToBoxAdapter(
@@ -94,17 +134,26 @@ class OrderPage extends StatelessWidget {
                           },
                           child: Column(
                             children: [
-                              RadioListTile(
-                                value: PaymentMethod.cash,
-                                title: Text("cash"),
+                              ListTile(
+                                leading: Icon(
+                                  Icons.money,
+                                  color: AppColors.primaryColor,
+                                ),
+                                title: Text("Cash On Delivery"),
+                                trailing: Radio(value: PaymentMethod.cash),
                               ),
-                              RadioListTile(
-                                value: PaymentMethod.card,
-                                title: Text("card"),
+                              Divider(
+                                color: Colors.grey[300],
+                                indent: 20,
+                                endIndent: 20,
                               ),
-                              RadioListTile(
-                                value: PaymentMethod.wallet,
-                                title: Text("wallet"),
+                              ListTile(
+                                leading: Icon(
+                                  Icons.credit_card,
+                                  color: AppColors.primaryColor,
+                                ),
+                                title: Text("Add Card"),
+                                trailing: Radio(value: PaymentMethod.card),
                               ),
                             ],
                           ),
@@ -127,11 +176,10 @@ class OrderPage extends StatelessWidget {
                               FocusManager.instance.primaryFocus?.unfocus(),
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.compress_outlined),
-
                             hint: Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Text(
-                                "cupon code",
+                                "coupon code",
                                 style: TextStyle(color: AppColors.primaryColor),
                               ),
                             ),
