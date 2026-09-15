@@ -172,4 +172,27 @@ class AuthRepository {
       throw message;
     }
   }
+
+  Future<Response> refreshAccessToken(String refreshToken) async {
+    try {
+      final response = await api.post(
+        'auth/refreshAccessToken',
+        data: {"refreshToken": refreshToken},
+      );
+      final AuthModel data = AuthModel.fromJson(response.data);
+      await storageServices.setAccessToken(data.accessToken!);
+      return response;
+    } on DioException catch (e) {
+      String message = "something went wrong";
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        message = "connection timeout please check your internet";
+      } else if (e.type == DioExceptionType.connectionError) {
+        message = "No internet connection";
+      } else if (e.response != null) {
+        message = e.response?.data['message'] ?? "Error";
+      }
+      throw message;
+    }
+  }
 }

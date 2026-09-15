@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/features/cart/bloc/cart_bloc.dart';
 import 'package:ecommerce_app/features/cart/bloc/cart_events.dart';
 import 'package:ecommerce_app/features/cart/bloc/cart_states.dart';
+import 'package:ecommerce_app/features/cart/widgets/bill_summary.dart';
 import 'package:ecommerce_app/features/cart/widgets/cart_product.dart';
 import 'package:ecommerce_app/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,72 @@ class _CartviewState extends State<Cartview> {
         builder: (context, state) {
           return state.status == CartStatus.loading
               ? Scaffold(body: const Center(child: CircularProgressIndicator()))
+              : state.cartList == null || state.cartList!.isEmpty
+              ? Scaffold(
+                  appBar: AppBar(
+                    titleSpacing: 0,
+                    toolbarHeight: 70,
+                    leadingWidth: 70,
+                    leading: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black38,
+                              blurRadius: 5,
+                              offset: Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios_new,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ),
+                    ),
+                    centerTitle: true,
+                    title: const Text(
+                      "My Cart",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                  ),
+                  body: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Cart is empty",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("Add Item"),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               : Scaffold(
                   appBar: AppBar(
                     titleSpacing: 0,
@@ -89,125 +156,7 @@ class _CartviewState extends State<Cartview> {
                               vertical: 20,
                             ),
                             sliver: SliverToBoxAdapter(
-                              child: Column(
-                                spacing: 20,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Payment details",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Cart total",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ 20",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Dioscount",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ {state.cartList[0].price ?? ''}",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Delivery fee",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ 20",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Service fee",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ 20",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "Total amount",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "\$ 70",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                              child: BillSummary(state: state),
                             ),
                           ),
                           SliverToBoxAdapter(
@@ -237,21 +186,29 @@ class _CartviewState extends State<Cartview> {
                               color: AppColors.primaryColor,
                             ),
                             child: state.status == CartStatus.loadingTwo
-                                ? CircularProgressIndicator(color: Colors.white)
+                                ? Center(
+                                    child: SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
                                 : TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, "/order");
+                                    },
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         const Text(
-                                          "Add to cart",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        SizedBox(width: 20),
-                                        Text(
-                                          "\$ 20",
-                                          style: TextStyle(color: Colors.white),
+                                          "Checkout",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ],
                                     ),

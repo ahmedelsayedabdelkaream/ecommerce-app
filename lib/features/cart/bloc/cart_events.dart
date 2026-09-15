@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/features/cart/bloc/cart_states.dart';
+
 abstract class CartEvents {}
 
 class GetCartEvent extends CartEvents {}
@@ -8,14 +10,24 @@ class AddproductToCartEvent extends CartEvents {
   AddproductToCartEvent({required this.productId, required this.quantity});
 }
 
+class PaymentChangeEvent extends CartEvents {
+  final PaymentMethod paymentMethod;
+  PaymentChangeEvent({required this.paymentMethod});
+}
+
 class AddToCartEvent extends CartEvents {
   final String productId;
 
   AddToCartEvent({required this.productId});
 }
 
-class RemoveToCartEvent extends CartEvents {
+class RemoveFromCartEvent extends CartEvents {
   final String productId;
 
-  RemoveToCartEvent({required this.productId});
+  RemoveFromCartEvent({required this.productId});
+}
+
+class CheckCodeEvent extends CartEvents {
+  final String code;
+  CheckCodeEvent({required this.code});
 }
