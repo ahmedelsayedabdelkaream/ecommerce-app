@@ -35,8 +35,8 @@ class FloatingNavigationBar extends StatelessWidget {
           children: [
             customBottomNavItem(0, Icons.home),
             customBottomNavItem(1, Icons.shopping_cart_outlined),
-            customBottomNavItem(3, Icons.favorite_outline),
-            customBottomNavItem(2, Icons.chat_bubble_outline),
+            customBottomNavItem(2, Icons.favorite_outline),
+            customBottomNavItem(3, Icons.chat_bubble_outline),
             customBottomNavItem(4, Icons.person_outline),
           ],
         ),

@@ -1,24 +1,26 @@
+import 'package:ecommerce_app/data/models/product_model.dart';
 import 'package:ecommerce_app/features/cart/bloc/cart_bloc.dart';
 import 'package:ecommerce_app/features/cart/bloc/cart_events.dart';
-import 'package:ecommerce_app/features/home/bloc/home_page_state.dart';
+import 'package:ecommerce_app/features/favorites/bloc/favorites_bloc.dart';
+import 'package:ecommerce_app/features/favorites/bloc/favorites_events.dart';
+import 'package:ecommerce_app/features/favorites/bloc/favorites_states.dart';
 import 'package:ecommerce_app/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductCard extends StatelessWidget {
-  final HomePageStates state;
+  final ProductModel product;
   final int index;
-  const ProductCard({super.key, required this.state, required this.index});
+  const ProductCard({super.key, required this.product, required this.index});
 
   @override
   Widget build(BuildContext context) {
+    final isFavorite = context.select<FavoriteBloc, bool>(
+      (state) => state.state.favoritesIds!.contains(product.id),
+    );
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(
-          context,
-          '/productDetails',
-          arguments: state.featuredProducts[index].id,
-        );
+        Navigator.pushNamed(context, '/productDetails', arguments: product.id);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -46,13 +48,27 @@ class ProductCard extends StatelessWidget {
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
+                      color: Colors.white,
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
                       padding: EdgeInsets.zero,
-                      onPressed: () {},
-                      icon: Icon(size: 14, Icons.favorite, color: Colors.white),
+                      onPressed: () {
+                        context.read<FavoriteBloc>().add(
+                          ToggleFavorites(productId: product.id!),
+                        );
+                      },
+                      icon: isFavorite
+                          ? const Icon(
+                              size: 14,
+                              Icons.favorite,
+                              color: Colors.red,
+                            )
+                          : const Icon(
+                              size: 14,
+                              Icons.favorite,
+                              color: Colors.grey,
+                            ),
                     ),
                   ),
                 ),
@@ -62,7 +78,7 @@ class ProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 5.0),
               child: Text(
-                state.featuredProducts[index].name ?? '',
+                product.name ?? '',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   color: AppColors.primaryColor,
@@ -86,7 +102,7 @@ class ProductCard extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: "${state.featuredProducts[index].price!} \$",
+                          text: "${product.price!} \$",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -94,17 +110,13 @@ class ProductCard extends StatelessWidget {
                             decoration: TextDecoration.lineThrough,
                             decorationColor: AppColors.primaryColor,
                             decorationStyle: TextDecorationStyle.solid,
-                            decorationThickness:
-                                state.featuredProducts[index].discount == 0
-                                ? 0
-                                : 2,
+                            decorationThickness: product.discount == 0 ? 0 : 2,
                           ),
                         ),
-                        state.featuredProducts[index].discount == 0
+                        product.discount == 0
                             ? const TextSpan()
                             : TextSpan(
-                                text:
-                                    " ${state.featuredProducts[index].discountPrice} \$",
+                                text: " ${product.discountPrice} \$",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,
@@ -127,9 +139,7 @@ class ProductCard extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         onPressed: () {
                           context.read<CartBloc>().add(
-                            AddToCartEvent(
-                              productId: state.featuredProducts[index].id!,
-                            ),
+                            AddToCartEvent(productId: product.id!),
                           );
                         },
                         icon: Icon(size: 24, Icons.add, color: Colors.white),

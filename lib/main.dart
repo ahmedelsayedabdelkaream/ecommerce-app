@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/core/bloc_observer.dart';
 import 'package:ecommerce_app/data/repositories/auth_repository.dart';
 import 'package:ecommerce_app/data/repositories/cart_repository.dart';
+import 'package:ecommerce_app/data/repositories/favorites_repository.dart';
 import 'package:ecommerce_app/data/repositories/onboarding_repository.dart';
 import 'package:ecommerce_app/data/repositories/product_repository.dart';
 import 'package:ecommerce_app/data/services/api_service.dart';
@@ -11,6 +12,9 @@ import 'package:ecommerce_app/features/cart/bloc/cart_bloc.dart';
 import 'package:ecommerce_app/features/splash/bloc/splash_bloc.dart';
 import 'package:ecommerce_app/features/home/bloc/home_page_bloc.dart';
 import 'package:ecommerce_app/features/onboarding/onboarding_bloc/onboarding_bloc.dart';
+import 'package:ecommerce_app/features/splash/bloc/splash_events.dart';
+import 'package:ecommerce_app/features/favorites/bloc/favorites_bloc.dart';
+import 'package:ecommerce_app/features/favorites/bloc/favorites_events.dart';
 import 'package:ecommerce_app/l10n/app_localizations.dart';
 import 'package:ecommerce_app/shared/localization/locale_bloc.dart';
 import 'package:ecommerce_app/shared/routes/app_routes.dart';
@@ -61,6 +65,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
         RepositoryProvider(
+          create: (context) => FavoritesRepository(context.read<ApiService>()),
+        ),
+        RepositoryProvider(
           create: (context) => ProductRepository(context.read<ApiService>()),
         ),
         RepositoryProvider(
@@ -73,7 +80,7 @@ class MyApp extends StatelessWidget {
             create: (context) => SplashBloc(
               context.read<StorageServices>(),
               context.read<AuthRepository>(),
-            ),
+            )..add(SplashInitialEvent()),
           ),
           BlocProvider(
             create: (context) => OnBoardingBloc(
@@ -87,6 +94,15 @@ class MyApp extends StatelessWidget {
             create: (context) => SignUpBloc(context.read<AuthRepository>()),
           ),
           BlocProvider(create: (context) => BottomNavigationBloc()),
+          BlocProvider(
+            create: (context) =>
+                FavoriteBloc(
+                    context.read<FavoritesRepository>(),
+                    context.read<StorageServices>(),
+                  )
+                  ..add(IntitialFavoritesIds())
+                  ..add(WishListInitial()),
+          ),
           BlocProvider(
             create: (context) =>
                 HomePageBloc(context.read<ProductRepository>()),

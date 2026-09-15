@@ -26,3 +26,8 @@ class RemoveFromCartEvent extends CartEvents {
 
   RemoveFromCartEvent({required this.productId});
 }
+
+class CheckCodeEvent extends CartEvents {
+  final String code;
+  CheckCodeEvent({required this.code});
+}

@@ -81,5 +81,14 @@ class CartBloc extends Bloc<CartEvents, CartStates> {
     on<PaymentChangeEvent>((event, emit) {
       emit(state.copyWith(paymentMethod: event.paymentMethod));
     });
+    on<CheckCodeEvent>((event, emit) {
+      emit(state.copyWith(status: CartStatus.loading));
+      try {
+        cartRepository.checkCode(event.code);
+        emit(state.copyWith(status: CartStatus.success));
+      } catch (e) {
+        emit(state.copyWith(error: e.toString()));
+      }
+    });
   }
 }

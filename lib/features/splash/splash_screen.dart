@@ -6,19 +6,8 @@ import 'package:ecommerce_app/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    context.read<SplashBloc>().add(SplashInitialEvent());
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

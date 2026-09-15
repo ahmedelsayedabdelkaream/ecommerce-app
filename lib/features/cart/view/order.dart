@@ -6,9 +6,15 @@ import 'package:ecommerce_app/shared/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class OrderPage extends StatelessWidget {
+class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
 
+  @override
+  State<OrderPage> createState() => _OrderPageState();
+}
+
+class _OrderPageState extends State<OrderPage> {
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -16,7 +22,42 @@ class OrderPage extends StatelessWidget {
       child: BlocBuilder<CartBloc, CartStates>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(title: Text("Order")),
+            appBar: AppBar(
+              titleSpacing: 0,
+              toolbarHeight: 70,
+              leadingWidth: 70,
+              leading: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black38,
+                        blurRadius: 5,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new,
+                      size: 20,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              ),
+              centerTitle: true,
+              title: const Text(
+                "Order",
+                style: TextStyle(fontSize: 20, color: AppColors.primaryColor),
+              ),
+            ),
             body: Padding(
               padding: const EdgeInsets.all(20),
               child: CustomScrollView(
@@ -172,6 +213,7 @@ class OrderPage extends StatelessWidget {
                           border: Border.all(color: Colors.grey[300]!),
                         ),
                         child: TextFormField(
+                          controller: controller,
                           onTapOutside: (event) =>
                               FocusManager.instance.primaryFocus?.unfocus(),
                           decoration: InputDecoration(
@@ -184,7 +226,11 @@ class OrderPage extends StatelessWidget {
                               ),
                             ),
                             suffixIcon: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                context.read<CartBloc>().add(
+                                  CheckCodeEvent(code: controller.text),
+                                );
+                              },
                               child: Text(
                                 "submit",
                                 style: TextStyle(

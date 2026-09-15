@@ -148,4 +148,21 @@ class CartRepository {
       throw message;
     }
   }
+
+  Future<void> checkCode(String code) async {
+    try {
+      final response = await api.post('cart/checkCode', data: {'code': code});
+    } on DioException catch (e) {
+      String message = "something went wrong";
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        message = "connection timeout please check your internet";
+      } else if (e.type == DioExceptionType.connectionError) {
+        message = "No internet connection";
+      } else if (e.response != null) {
+        message = e.response?.data['message'] ?? message;
+      }
+      throw message;
+    }
+  }
 }

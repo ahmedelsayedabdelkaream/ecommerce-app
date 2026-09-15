@@ -123,8 +123,15 @@ class _HomePageViewState extends State<HomePageView> {
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
                                   return CategoryCard(
-                                    index: index,
-                                    state: state,
+                                    category: state.categories[index],
+                                    isSelected: index == state.categoryIndex,
+                                    onTap: () =>
+                                        context.read<HomePageBloc>().add(
+                                          OnCategoryTapped(
+                                            index: index,
+                                            id: state.categories[index].id!,
+                                          ),
+                                        ),
                                   );
                                 },
                               );
@@ -164,8 +171,10 @@ class _HomePageViewState extends State<HomePageView> {
                                         crossAxisSpacing: 10,
                                       ),
                                   delegate: SliverChildBuilderDelegate(
-                                    (context, index) =>
-                                        ProductCard(state: state, index: index),
+                                    (context, index) => ProductCard(
+                                      product: state.featuredProducts[index],
+                                      index: index,
+                                    ),
                                     childCount: state.featuredProducts.length,
                                   ),
                                 ),

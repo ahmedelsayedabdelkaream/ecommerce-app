@@ -38,4 +38,16 @@ class StorageServices {
   Future<void> setString(String key, String value) {
     return sharedPreferences.setString(key, value);
   }
+
+  String getString(String key) {
+    return sharedPreferences.getString(key) ?? '';
+  }
+
+  Future<void> setFavorites(List<String> favoritesId) {
+    return sharedPreferences.setStringList("favorites", favoritesId);
+  }
+
+  List<String> getFavorites() {
+    return sharedPreferences.getStringList("favorites") ?? [];
+  }
 }

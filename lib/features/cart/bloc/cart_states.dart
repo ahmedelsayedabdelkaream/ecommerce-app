@@ -12,6 +12,7 @@ class CartStates extends Equatable {
   final List<CartModel>? cartList;
   final double? totalPrice;
   final double? dis;
+  final String? code;
   final double? deliveryCharge;
   final double? serviceFee;
   final String? error;
@@ -27,6 +28,7 @@ class CartStates extends Equatable {
     this.serviceFee,
     this.totalAmount,
     this.paymentMethod = PaymentMethod.cash,
+    this.code,
   });
   CartStates copyWith({
     CartStatus? status,
@@ -39,6 +41,7 @@ class CartStates extends Equatable {
     double? totalAmount,
     String? error,
     PaymentMethod? paymentMethod,
+    String? code,
   }) {
     return CartStates(
       status: status ?? this.status,
@@ -51,6 +54,7 @@ class CartStates extends Equatable {
       serviceFee: serviceFee ?? this.serviceFee,
       totalAmount: totalAmount ?? this.totalAmount,
       paymentMethod: paymentMethod ?? this.paymentMethod,
+      code: code ?? this.code,
     );
   }
 
@@ -66,5 +70,6 @@ class CartStates extends Equatable {
     serviceFee ?? "",
     totalAmount ?? "",
     paymentMethod ?? "",
+    code ?? "",
   ];
 }

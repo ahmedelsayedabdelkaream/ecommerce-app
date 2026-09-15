@@ -3,6 +3,7 @@ import 'package:ecommerce_app/features/bottom_navigation/bloc/bottom_nav_events.
 import 'package:ecommerce_app/features/bottom_navigation/bloc/bottom_nav_states.dart';
 import 'package:ecommerce_app/features/bottom_navigation/widgets/floating_nav.dart';
 import 'package:ecommerce_app/features/home/view/home_page.dart';
+import 'package:ecommerce_app/features/favorites/view/favorites.dart';
 import 'package:ecommerce_app/shared/routes/app_routes.dart';
 import 'package:ecommerce_app/shared/widgets/exit_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,13 @@ class BottomNavigationView extends StatelessWidget {
                   children: [
                     IndexedStack(
                       index: state.currIndex,
-                      children: [const HomePageView(), const Placeholder()],
+                      children: [
+                        const HomePageView(),
+                        const Placeholder(), // cart
+                        const WishListView(),
+                        const Placeholder(),
+                        const Placeholder(),
+                      ],
                     ),
                     FloatingNavigationBar(
                       currentIndex: state.currIndex,
